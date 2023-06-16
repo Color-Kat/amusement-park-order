@@ -7,13 +7,13 @@ import Footer from "./Footer";
 export const Layout: React.FC<{ children: React.ReactElement }> = memo(({children}) => {
     return (
         <div
-            className="scroll-container flex flex-col h-screen overflow-auto overflow-x-hidden app-bg"
+            className="scroll-container relative flex flex-col h-screen overflow-auto overflow-x-hidden bg-app-blue text-white font-montserrat"
         >
 
             <Header/>
 
             <Main>
-                <div className="max-w-4xl flex-1">
+                <div className="flex-1">
                     {children}
                 </div>
             </Main>

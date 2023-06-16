@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Title -->
-    <title>New project</title>
+    <title>Парк Чудес. Кемеровский городской сад</title>
 
     <!-- KeyWords -->
-    <meta name="keywords" content="">
+    <meta name="keywords" content="Парк аттракционов в Кемерово, Парк Чудес, Кемерово парк чудес, Кемеровский парк аттракционов, Кемеровский городской сад">
 
     <!--  Description  -->
-    <meta name="description" content="">
+    <meta name="description" content="Кемеровской городской сад «Парк Чудес» является центром отдыха и развлечений с более чем девяностолетней историей. Взрослые и дети могут гулять здесь весь день и находить для себя занятие по душе. В парке действуют 30 аттракционов, игровые автоматы, волейбольная и теннисная площадки, тир, кафе, в выходные дни играет духовой оркестр.">
 
     <!--  Webmanifest  -->
     <!--    <link rel="manifest" href="/manifest.webmanifest">-->

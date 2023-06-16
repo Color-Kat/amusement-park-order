@@ -1,17 +1,28 @@
 import React from 'react';
-import { Logo } from "@UI/Elements/Logo/Logo";
-import { Link } from "react-router-dom";
+import {Logo} from "@UI/Elements/Logo/Logo";
+import {Link} from "react-router-dom";
+
 
 export const Header = () => {
 
     return (
-        <header className="flex justify-center items-center h-16 px-5 py-1 w-full bg-gray-100 text-gray-800">
-            <div className="container flex justify-evenly items-center">
-                <Link to="/favourites" className="hover:underline">Another page</Link>
+        <header
+            className="top-header sticky top-0 flex justify-center items-center flex-0 h-16 px-5 py-5 w-full shadow-lg bg-app-blue z-10"
+        >
+            <div className="container flex justify-between items-center">
+                <div>
+                    <Link to="/">
+                        <h1 className="text-orange-500 font-bold text-3xl italic font-roboto">
+                            Парк Чудес
+                        </h1>
+                    </Link>
+                </div>
 
-                <Logo/>
-
-                <a href="https://github.com/" target="_blank" className="hover:underline">GitHub</a>
+                <div className="flex md:gap-8 gap-4 text-lg font-semibold">
+                    <Link to="/news">Новости</Link>
+                    <Link to="/news">Услуги</Link>
+                    <Link to="/contacts">Контакты</Link>
+                </div>
             </div>
         </header>
     );

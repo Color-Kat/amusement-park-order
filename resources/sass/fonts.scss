@@ -16,6 +16,17 @@
   font-family: 'Ubuntu Mono', monospace;
 }
 
+@font-face {
+  font-family: 'Kids';
+  src: url('./fonts/Kablammo-Regular.ttf');
+  font-weight: 400;
+}
+
+.font-kids {
+  font-family: 'Kids', sans-serif;
+}
+
+
 //@font-face {
 //  font-family: 'Circle';
 //  src: url('./fonts/Circe-Regular.woff');
