@@ -5,8 +5,11 @@ import { FavouritesPage } from "@pages/FavouritesPage/FavouritesPage";
 import { Layout } from "@modules/Layout";
 import {Login} from "@pages/Auth/Login.tsx";
 import {Registration} from "@pages/Auth/Registration.tsx";
+import {useTSelector} from "@hooks/redux.ts";
 
 function App() {
+    // const token = useTSelector(state => state.auth.token);
+
     return (
         <BrowserRouter>
             <Layout>

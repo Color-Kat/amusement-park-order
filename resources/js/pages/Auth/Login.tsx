@@ -4,6 +4,8 @@ import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {Link} from "react-router-dom";
 import {useLoginMutation} from "@/store/auth/auth.api.ts";
+import {useTDispatch} from "@hooks/redux.ts";
+import {setUser} from "@/store/auth/auth.slice.ts";
 
 interface LoginProps {
 
@@ -11,6 +13,8 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({}) => {
     const [login] = useLoginMutation();
+    const dispatch = useTDispatch();
+
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -19,7 +23,9 @@ export const Login: React.FC<LoginProps> = ({}) => {
     const handleSubmit =  async (e: any) => {
         e.preventDefault();
         const result = await login(data);
-        console.log(result);
+
+        if('data' in result)
+            dispatch(setUser(result.data));
     }
     
     return (

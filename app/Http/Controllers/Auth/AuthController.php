@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
+    public function getUser(Request $request) {
+        return $request->user();
+    }
 
     public function register(RegisterRequest $request) {
         $data = $request->validated();
@@ -31,6 +34,7 @@ class AuthController extends Controller
 
         if(!Auth::attempt($credentials)) {
             return response([
+                'isSuccess'=> false,
                 'message' => 'Неверные логин или пароль'
             ]);
         }

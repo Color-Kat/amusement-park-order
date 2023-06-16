@@ -6,7 +6,7 @@ import {authApi} from "@/store/auth/auth.api.ts";
 export const store = configureStore({
    reducer: {
        // test: testSlice.reducer
-       // auth: authReducer,
+       auth: authReducer,
        [authApi.reducerPath]: authApi.reducer,
    },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(authApi.middleware)
