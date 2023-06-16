@@ -3,16 +3,24 @@ import {Page} from "@modules/PageTemplates";
 import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {Link} from "react-router-dom";
+import {useLoginMutation} from "@/store/auth/auth.api.ts";
 
 interface LoginProps {
 
 }
 
 export const Login: React.FC<LoginProps> = ({}) => {
+    const [login] = useLoginMutation();
     const [data, setData] = useState({
-        login: '',
+        email: '',
         password: '',
     });
+
+    const handleSubmit =  async (e: any) => {
+        e.preventDefault();
+        const result = await login(data);
+        console.log(result);
+    }
     
     return (
         <Page>
@@ -25,8 +33,8 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     <Input
                         data={data}
                         setData={setData}
-                        name="login"
-                        placeholder="Логин"
+                        name="email"
+                        placeholder="Почта"
                     />
                     <Input
                         data={data}
@@ -46,6 +54,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
                 <Button
                     filled={true}
                     className="mt-6 w-full"
+                    onClick={handleSubmit}
                 >
                     Войти
                 </Button>

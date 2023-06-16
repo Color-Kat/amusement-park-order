@@ -27,6 +27,17 @@ export const authApi = createApi({
             }),
         }),
 
+        login: builder.mutation<{user: any, token: string}, {
+            email: string,
+            password: string,
+        }>({
+            query: (payload) => ({
+                url: `login`,
+                method: 'POST',
+                body: payload
+            }),
+        }),
+
         // getOfficeByCrmId: builder.query<IOffice, {crmId: number, typeDeal: 'rent' | 'sell'}>({
         //     query: (data) => ({
         //         url: `get-office/${data.typeDeal}/${data.crmId}`,
@@ -52,4 +63,5 @@ export const authApi = createApi({
 
 export const {
     useRegisterMutation,
+    useLoginMutation
 } = authApi;

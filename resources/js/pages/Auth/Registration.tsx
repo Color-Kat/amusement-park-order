@@ -18,7 +18,7 @@ export const Registration: React.FC<RegistrationProps> = ({}) => {
         password: '',
     });
 
-    const register = async (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         const result = await registerUser(data);
         console.log(result);
@@ -62,7 +62,7 @@ export const Registration: React.FC<RegistrationProps> = ({}) => {
                 <Button
                     filled={true}
                     className="mt-6 w-full"
-                    onClick={register}
+                    onClick={handleSubmit}
                 >
                     Зарегистрироваться
                 </Button>
