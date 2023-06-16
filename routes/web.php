@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReactController;
 
 
-Auth::routes();
-
-Route::middleware('role:admin')->get('/admin', function () {
-    return 'Hello, Admin';
-});
+//Auth::routes();
+//
+//Route::middleware('role:admin')->get('/admin', function () {
+//    return 'Hello, Admin';
+//});
 
 /**
  * Redirect all routes to ReactController that renders react
