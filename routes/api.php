@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::post('login', 'Auth\\LoginController@login')->name('login');
-Route::post('register', 'Auth\\RegisterController@register')->name('register');
-Route::get('logout', 'Auth\\LoginController@logout')->name('logout');
-Route::get('check-auth', 'Auth\\LoginController@checkAuth')->name('logout');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
