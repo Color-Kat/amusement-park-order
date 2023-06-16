@@ -10,7 +10,7 @@ interface RegistrationProps {
 }
 
 export const Registration: React.FC<RegistrationProps> = ({}) => {
-    const [registerUser, result] = useRegisterMutation();
+    const [registerUser] = useRegisterMutation();
 
     const [data, setData] = useState({
         name: '',
@@ -20,8 +20,8 @@ export const Registration: React.FC<RegistrationProps> = ({}) => {
 
     const register = async (e: any) => {
         e.preventDefault();
-        await registerUser(data);
-        console.log(result)
+        const result = await registerUser(data);
+        console.log(result);
     }
     
     return (

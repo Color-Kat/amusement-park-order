@@ -2,81 +2,50 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    /**
-     * Обработка запроса на вход пользователя.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
 
-        $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required',
+    public function register(RegisterRequest $request) {
+        $data = $request->validated();
+
+        $user = User::query()->create([
+            'name' => $data['name'],
+            'email' => $data['name'],
+            'password' => bcrypt($data['name']),
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Неверные учетные данные'], 400);
-        }
+        $token = $user->createToken('token')->plainTextToken;
 
-        if (Auth::attempt($credentials)) {
-            $accessToken = Auth::user()->createToken('authToken')->accessToken;
-            return response()->json(['access_token' => $accessToken]);
-        }
-
-        return response()->json(['message' => 'Ошибка аутентификации'], 401);
+        return response(compact('user', 'token'));
     }
 
-    /**
-     * Обработка запроса на регистрацию пользователя.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-        ]);
+    public function login(LoginRequest $request) {
+        $credentials = $request->validated();
 
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Заполните все поля'], 400);
+        if(!Auth::attempt($credentials)) {
+            return response([
+                'message' => 'Неверные логин или пароль'
+            ]);
         }
 
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
+        $user = Auth::user();
+        $token = $user->createToken('token')->plainTextToken;
 
-        $accessToken = $user->createToken('authToken')->accessToken;
-
-        return response()->json(['access_token' => $accessToken]);
+        return response(compact('user', 'token'));
     }
 
-    /**
-     * Обработка запроса на выход пользователя.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function logout()
-    {
-        if (Auth::check()) {
-            Auth::user()->token()->revoke();
-        }
+    public function logout(Request $request) {
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Вы вышли из аккаунта']);
+        return response('', 204);
     }
+
 }

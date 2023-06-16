@@ -3,11 +3,19 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 export const authApi = createApi({
     reducerPath: 'auth/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: '/api/'
-    } as any),
+        baseUrl: '/api/',
+        // prepareHeaders: (headers: any, { getState, endpoint }) => {
+        //     const user = (getState() as RootState).user.currentUser
+        //
+        //     if (user && endpoint !== 'refresh') {
+        //         headers.set('Authorization', `Bearer ${user.token.access}`)
+        //     }
+        //     return headers
+        // },
+        // credentials: 'include', // This allows server to set cookies
+    }),
     endpoints: (builder) => ({
-
-        register: builder.mutation<any, {
+        register: builder.mutation<{user: any, token: string}, {
             name: string,
             email: string,
             password: string,
