@@ -4,11 +4,11 @@ import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {Link} from "react-router-dom";
 
-interface LoginProps {
+interface RegistrationProps {
 
 }
 
-export const Login: React.FC<LoginProps> = ({}) => {
+export const Registration: React.FC<RegistrationProps> = ({}) => {
     const [data, setData] = useState({
         login: '',
         password: '',
@@ -18,7 +18,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
         <Page>
             <form className="login text-center backdrop-blur bg-white/20 px-8 py-16 rounded-xl">
                 <div className="text-3xl font-bold font-kids tracking-widest mb-8">
-                    <h1>Вход в Парк Чудес</h1>
+                    <h1>Регистрация</h1>
                 </div>
 
                 <div className="space-y-5">
@@ -38,8 +38,8 @@ export const Login: React.FC<LoginProps> = ({}) => {
                 </div>
 
                 <div className="mt-3 text-sm underline text-right">
-                    <Link to="/registration">
-                        Регистрация
+                    <Link to="/login">
+                        Вход
                     </Link>
                 </div>
 
@@ -47,7 +47,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     filled={true}
                     className="mt-6 w-full"
                 >
-                    Войти
+                    Зарегистрироваться
                 </Button>
             </form>
         </Page>
