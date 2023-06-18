@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {Page} from "@modules/PageTemplates";
 import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
-import {Link} from "react-router-dom";
-import {useLoginMutation} from "@/store/auth/auth.api.ts";
-import {useTDispatch} from "@hooks/redux.ts";
+import {Link, Navigate} from "react-router-dom";
+import {useGetUserQuery, useLoginMutation} from "@/store/auth/auth.api.ts";
+import {useTDispatch, useTSelector} from "@hooks/redux.ts";
 import {setUser} from "@/store/auth/auth.slice.ts";
 
 interface LoginProps {
@@ -12,6 +12,9 @@ interface LoginProps {
 }
 
 export const Login: React.FC<LoginProps> = ({}) => {
+
+    const {data: user} = useGetUserQuery();
+
     const [login] = useLoginMutation();
     const dispatch = useTDispatch();
 
@@ -27,6 +30,8 @@ export const Login: React.FC<LoginProps> = ({}) => {
         if('data' in result)
             dispatch(setUser(result.data));
     }
+
+    if(user) return <Navigate to="/admin" />;
     
     return (
         <Page>

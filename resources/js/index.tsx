@@ -8,9 +8,9 @@ import App from "./App.tsx";
 import '@sass/index.scss';
 import {authApi} from "@/store/auth/auth.api.ts";
 
-// store.dispatch();
-if(store.getState().auth.token)
-    await store.dispatch(authApi.endpoints.getUser.initiate())
+// // store.dispatch();
+// if(store.getState().auth.token)
+//     await store.dispatch(authApi.endpoints.getUser.initiate())
 
 createRoot(document.getElementById('app') as HTMLElement).render(
     <React.StrictMode>

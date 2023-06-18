@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Page} from "@modules/PageTemplates";
 import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {Link} from "react-router-dom";
-import {useRegisterMutation} from "@/store/auth/auth.api.ts";
+import {useLoginMutation, useLogoutMutation, useRegisterMutation} from "@/store/auth/auth.api.ts";
 
 interface RegistrationProps {
 
@@ -11,6 +11,7 @@ interface RegistrationProps {
 
 export const Registration: React.FC<RegistrationProps> = ({}) => {
     const [registerUser] = useRegisterMutation();
+    const [logout] = useLogoutMutation();
 
     const [data, setData] = useState({
         name: '',
@@ -23,6 +24,10 @@ export const Registration: React.FC<RegistrationProps> = ({}) => {
         const result = await registerUser(data);
         console.log(result);
     }
+
+    useEffect(() => {
+        logout();
+    }, [])
     
     return (
         <Page>

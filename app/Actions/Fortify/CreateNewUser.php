@@ -19,7 +19,6 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        dd(123);
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => [

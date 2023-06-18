@@ -1,19 +1,13 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {RootState} from "@/store";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {prepareAuthHeader} from "@/store/utils/prepareAuthHeader.ts";
 
 export const authApi = createApi({
     reducerPath: 'auth/api',
     baseQuery: fetchBaseQuery({
         baseUrl: '/api/',
-        prepareHeaders: (headers: any, { getState, endpoint }) => {
-            const token = (getState() as RootState).auth.token;
-
-            if (token && endpoint !== 'refresh')
-                headers.set('Authorization', `Bearer ${token}`)
-
-            return headers;
-        },
+        prepareHeaders: prepareAuthHeader,
         // credentials: 'include', // This allows server to set cookies
     }),
     endpoints: (builder) => ({
@@ -38,6 +32,12 @@ export const authApi = createApi({
                 body: payload,
             }),
         }),
+        logout: builder.mutation<void, void>({
+            query: () => ({
+                url: `logout`,
+                method: 'POST',
+            }),
+        }),
         getUser: builder.query<IUser, void>({
             query: () => ({
                 url: `user`,
@@ -49,5 +49,7 @@ export const authApi = createApi({
 
 export const {
     useRegisterMutation,
-    useLoginMutation
+    useLoginMutation,
+    useLogoutMutation,
+    useGetUserQuery
 } = authApi;

@@ -5,10 +5,16 @@ import { FavouritesPage } from "@pages/FavouritesPage/FavouritesPage";
 import { Layout } from "@modules/Layout";
 import {Login} from "@pages/Auth/Login.tsx";
 import {Registration} from "@pages/Auth/Registration.tsx";
-import {useTSelector} from "@hooks/redux.ts";
+import {useTDispatch, useTSelector} from "@hooks/redux.ts";
+import {useEffect} from "react";
+import {authApi, useGetUserQuery} from "@/store/auth/auth.api.ts";
+import {Admin} from "@pages/Admin/Admin.tsx";
+import {CreateAttraction} from "@pages/Admin/modules/Attractions/CreateAttraction.tsx";
 
 function App() {
-    // const token = useTSelector(state => state.auth.token);
+    const {usePrefetch} = authApi;
+
+    usePrefetch("getUser");
 
     return (
         <BrowserRouter>
@@ -20,6 +26,10 @@ function App() {
                     {/*  Auth  */}
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/registration" element={<Registration/>}/>
+
+                    {/* Admin  */}
+                    <Route path="/admin" element={<Admin/>}/>
+                    <Route path="/admin/attractions/create" element={<CreateAttraction/>}/>
                 </Routes>
             </Layout>
         </BrowserRouter>

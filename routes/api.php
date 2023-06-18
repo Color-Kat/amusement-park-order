@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,13 +22,20 @@ use Illuminate\Support\Facades\Route;
 //});
 
 //Auth::routes();
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [AuthController::class, 'getUser'])->name('user');
 
-});
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [AuthController::class, 'getUser'])->name('user');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+});
+
+Route::get('/attractions', [AttractionController::class, 'index'])->name('attractions');
+
+
 
 
