@@ -30,7 +30,7 @@ export const attractionsApi = createApi({
         //     }),
         // }),
 
-        getAttractions: builder.query<IAttraction, void>({
+        getAttractions: builder.query<IAttraction[], void>({
             query: () => ({
                 url: `attractions`,
             }),

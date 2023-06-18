@@ -13,9 +13,7 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
             <Header/>
 
             <Main>
-                <div className="flex-1">
-                    {children}
-                </div>
+                {children}
             </Main>
 
             <Footer/>

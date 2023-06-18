@@ -12,7 +12,7 @@ export const HomePage = () => {
         <div className="w-full">
             <Helmet>
                 <title>Главная</title>
-                <link rel="canonical" href="http://127.0.0.1:8000" />
+                {/*<link rel="canonical" href="http://127.0.0.1:8000" />*/}
             </Helmet>
 
             <LogoHeader />

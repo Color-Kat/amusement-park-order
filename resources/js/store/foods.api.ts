@@ -10,7 +10,7 @@ export interface IFood {
     image: string;
 }
 
-export const attractionsApi = createApi({
+export const foodsApi = createApi({
     reducerPath: 'foods/api',
     baseQuery: fetchBaseQuery({
         baseUrl: '/api/',
@@ -29,7 +29,7 @@ export const attractionsApi = createApi({
         //     }),
         // }),
 
-        getFoods: builder.query<IFood, void>({
+        getFoods: builder.query<IFood[], void>({
             query: () => ({
                 url: `foods`,
             }),
@@ -40,4 +40,4 @@ export const attractionsApi = createApi({
 
 export const {
     useGetFoodsQuery,
-} = attractionsApi;
+} = foodsApi;
