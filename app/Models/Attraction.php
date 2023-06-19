@@ -14,4 +14,10 @@ class Attraction extends Model
 
     protected $guarded = ["id"];
     public $timestamps = false;
+
+    protected $appends = ["cardPrice"];
+
+    public function getCardPriceAttribute() {
+        return $this->price - 10;
+    }
 }

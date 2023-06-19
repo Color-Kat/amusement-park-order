@@ -6,6 +6,7 @@ export interface IAttraction {
     id: number;
     name: string;
     price: number;
+    cardPrice?: number;
     description: string;
     restrictions: string;
     image: string;
