@@ -4,10 +4,12 @@ import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {PhotoInput} from "@components/Form/PhotoInput.tsx";
 import {toFormData} from "@/utils/toFormData.ts";
+import {useNavigate} from "react-router-dom";
 
 
 
 export const CreateAttraction: React.FC = ({}) => {
+    const navigate = useNavigate();
     const [createAttraction] = useCreateAttractionMutation();
 
     const [error, setError] = useState('');
@@ -23,13 +25,15 @@ export const CreateAttraction: React.FC = ({}) => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        console.log(attraction);
         const result = await createAttraction(toFormData(attraction));
         console.log(result);
 
-        if(!('data' in result)) return setError('Не удалось создать аттракцион');
+        if('error' in result)
+            return setError(Object.values((result.error as any).data)[0] as string);
 
-        if(result.data.status != 200) setError(result.data.message ?? 'Не удалось создать аттракцион');
+        if(result.data.status != 201) return setError(result.data.message ?? 'Не удалось создать аттракцион');
+
+        navigate('/admin');
     }
 
     return (

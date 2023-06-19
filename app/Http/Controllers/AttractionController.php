@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Attraction\StoreAttractionRequest;
 use App\Models\Attraction;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AttractionController extends Controller
@@ -20,10 +22,10 @@ class AttractionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreAttractionRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreAttractionRequest $request)
     {
         $data = $request->all();
 
@@ -35,7 +37,10 @@ class AttractionController extends Controller
         // Set image
         if ($data['_image']) $result->updateImage($data['_image'], 'attractions');
 
-        return $result;
+        return response()->json([
+            'status' => 201,
+            'data' => $result
+        ], 201);
     }
 
     /**
