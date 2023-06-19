@@ -24,7 +24,7 @@
   //scrollbar-width: thin;
 
   scrollbar-width: auto;
-  scrollbar-color: #5B5B5B #737373;
+  scrollbar-color: #2999e0 #2999e0;
   // overflow: overlay;
 
   &::-webkit-scrollbar {
@@ -38,7 +38,7 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: #121212;
+    background: #d9e1ff;
 
     @media screen and (max-width: 768px) {
       & {
@@ -48,12 +48,12 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #5B5B5B;
+    background-color: #348cff;
     border-radius: 5px;
 
     &:hover {
-      background-color: #737373;
-      box-shadow: 0 35px 20px #CC3824, 0 -35px 20px #CC3824;
+      background-color: #0d74ff;
+      box-shadow: 0 35px 20px #245fcc, 0 -35px 20px #245fcc;
     }
   }
 }
