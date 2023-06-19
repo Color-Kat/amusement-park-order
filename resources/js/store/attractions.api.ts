@@ -20,9 +20,10 @@ export const attractionsApi = createApi({
         prepareHeaders: prepareAuthHeader,
     }),
     endpoints: (builder) => ({
-        getAttractions: builder.query<IAttraction[], void>({
-            query: () => ({
+        getAttractions: builder.query<IAttraction[], {limit?: number}>({
+            query: (payload) => ({
                 url: `attractions`,
+                params: payload
             }),
         }),
         getAttraction: builder.query<IAttraction, {id: string}>({

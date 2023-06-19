@@ -17,9 +17,10 @@ export const foodsApi = createApi({
         prepareHeaders: prepareAuthHeader,
     }),
     endpoints: (builder) => ({
-        getFoods: builder.query<IFood[], void>({
-            query: () => ({
+        getFoods: builder.query<IFood[], {limit?: number}>({
+            query: (payload) => ({
                 url: `foods`,
+                params: payload
             }),
         }),
         getFood: builder.query<IFood, { id: string }>({

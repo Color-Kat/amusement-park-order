@@ -14,9 +14,14 @@ class FoodController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Food::all();
+        $query = Food::query()->orderByDesc('id');
+
+        $limit = $request->get('limit');
+        if($limit) $query->limit($limit);
+
+        return $query->get();
     }
 
     /**

@@ -7,7 +7,7 @@ export const Header = () => {
 
     return (
         <header
-            className="top-header sticky top-0 flex justify-center items-center flex-0 h-16 px-5 py-5 w-full shadow-lg bg-app-blue z-10"
+            className="top-header sticky top-0 flex justify-center items-center flex-0 h-16 px-5 py-5 w-full shadow-lg bg-app-blue z-40"
         >
             <div className="container flex justify-between items-center">
                 <div>

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Attraction\CURDFoodRequest;
+use App\Http\Requests\Attraction\CURDAttractionRequest;
 use App\Models\Attraction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class AttractionController extends Controller
 {
@@ -15,9 +14,14 @@ class AttractionController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Attraction::all();
+        $query = Attraction::query()->orderByDesc('id');
+
+        $limit = $request->get('limit');
+        if($limit) $query->limit($limit);
+
+        return $query->get();
     }
 
     /**
@@ -38,10 +42,10 @@ class AttractionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CURDFoodRequest $request
+     * @param CURDAttractionRequest $request
      * @return JsonResponse
      */
-    public function store(CURDFoodRequest $request)
+    public function store(CURDAttractionRequest $request)
     {
         $data = $request->all();
 
@@ -62,11 +66,11 @@ class AttractionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CURDFoodRequest $request
+     * @param CURDAttractionRequest $request
      * @param int $id
      * @return JsonResponse
      */
-    public function update(CURDFoodRequest $request, $id)
+    public function update(CURDAttractionRequest $request, $id)
     {
         $data = $request->all([
             'name', 'description', 'restrictions', 'price'
