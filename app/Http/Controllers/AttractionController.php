@@ -74,6 +74,8 @@ class AttractionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Attraction::query()
+            ->where('id', $id)
+            ->delete();
     }
 }

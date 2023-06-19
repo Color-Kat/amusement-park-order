@@ -37,11 +37,17 @@ export const attractionsApi = createApi({
                 body: payload,
             }),
         }),
-
+        deleteAttraction: builder.mutation<IResponse, {id: number}>({
+            query: (payload) => ({
+                url: `admin/attractions/${payload.id}`,
+                method: 'DELETE',
+            }),
+        }),
     })
 });
 
 export const {
     useGetAttractionsQuery,
-    useCreateAttractionMutation
+    useCreateAttractionMutation,
+    useDeleteAttractionMutation,
 } = attractionsApi;

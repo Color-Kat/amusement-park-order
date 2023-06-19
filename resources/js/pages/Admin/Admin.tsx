@@ -1,15 +1,23 @@
-import React from 'react';
-import {useGetAttractionsQuery} from "@/store/attractions.api.ts";
+import React, {useCallback} from 'react';
+import {useDeleteAttractionMutation, useGetAttractionsQuery} from "@/store/attractions.api.ts";
 import {useGetFoodsQuery} from "@/store/foods.api.ts";
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
 import {Button} from "@UI/Buttons/Button.tsx";
 
 export const Admin: React.FC = ({}) => {
-    const {data: attractions} = useGetAttractionsQuery();
+    const {data: attractions, refetch: refetchAttractions} = useGetAttractionsQuery();
     const {data: foods} = useGetFoodsQuery();
 
-    console.log(attractions);
+    const [deleteAttraction] = useDeleteAttractionMutation();
+    const handleDeleteAttraction = async (id: number) => {
+        const confirmed = confirm('Вы уверены, что хотите удалить аттракцион?');
+        if(!confirmed) return;
+
+        await deleteAttraction({id});
+
+        refetchAttractions();
+    }
 
     return (
         <div className="container px-5">
@@ -31,17 +39,29 @@ export const Admin: React.FC = ({}) => {
                 {attractions && <div className="space-y-5">
                     {attractions.map(attraction => {
                         return (
-                            <div className="w-full flex gap-8 md:flex-row flex-col justify-between border-2 border-app-accent rounded-xl p-5">
-                                <img src={attraction.image} alt={attraction.name} className="h-64 rounded-lg"/>
+                            <div
+                                className="w-full flex gap-8 md:flex-row flex-col justify-between border-2 border-app-accent rounded-xl p-5"
+                                key={attraction.id}
+                            >
+                                <img src={attraction.image} alt={attraction.name} className="h-64 rounded-lg object-contain"/>
 
                                 <div className="flex flex-col flex-1">
                                     <h3 className="text-3xl font-bold mb-2">{attraction.name}</h3>
                                     <p className="text-gray-200 text-sm ">{attraction.description}</p>
                                     <div className="text-lg mt-5">Цена: <b>{attraction.price}</b> ({attraction.cardPrice} по карте)</div>
 
-                                    <Link to={`/admin/attractions/${attraction.id}/edit`} className="mt-auto ml-auto">
-                                        <Button filled={false}>Изменить</Button>
-                                    </Link>
+                                    <div className="md:mt-auto mt-5 flex flex-wrap gap-3 justify-end">
+                                        <Button
+                                            colorClass="red-500"
+                                            className="mx-0"
+                                            onClick={() => handleDeleteAttraction(attraction.id)}
+                                        >Удалить</Button>
+
+                                        <Link to={`/admin/attractions/${attraction.id}/edit`} className="">
+                                            <Button filled={false}>Изменить</Button>
+                                        </Link>
+                                    </div>
+
                                 </div>
                             </div>
                         )
