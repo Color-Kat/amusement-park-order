@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\FoodController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,11 +35,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+// Attractions
 Route::get('/attractions', [AttractionController::class, 'index'])->name('attractions.index');
 Route::get('/attractions/{id}', [AttractionController::class, 'show'])->name('attractions.show');
 
-Route::middleware('role:admin', 'auth:sanctum')->as('admin.')->prefix('admin')->group(function() {
+// Foods
+Route::get('/foods', [FoodController::class, 'index'])->name('foods.index');
+Route::get('/foods/{id}', [FoodController::class, 'show'])->name('foods.show');
+
+Route::middleware(['role:admin', 'auth:sanctum'])->as('admin.')->prefix('admin')->group(function() {
+
+    // Attractions CRUD
     Route::apiResource('/attractions', AttractionController::class)->except(['index', 'show'])->names('attractions');
+
+    // Foods CRUD
+    Route::apiResource('/foods', FoodController::class)->except(['index', 'show'])->names('foods');
 });
 
 

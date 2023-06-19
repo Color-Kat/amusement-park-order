@@ -1,6 +1,6 @@
 import React, {ReactNode, useCallback, useEffect} from 'react';
 import {IAttraction, useDeleteAttractionMutation, useGetAttractionsQuery} from "@/store/attractions.api.ts";
-import {useGetFoodsQuery} from "@/store/foods.api.ts";
+import {IFood, useGetFoodsQuery} from "@/store/foods.api.ts";
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
 import {Button} from "@UI/Buttons/Button.tsx";
@@ -21,7 +21,7 @@ export const AdminSection: React.FC<AdminSectionProps> = ({
 
 
     return (
-        <article className="attractions p-3 rounded-lg">
+        <article className="attractions p-3 rounded-lg mb-10">
             <div className="flex items-center justify-between mb-3">
                 <h2 className="text-xl font-bold">{title}</h2>
                 <Link
@@ -32,8 +32,12 @@ export const AdminSection: React.FC<AdminSectionProps> = ({
 
             {items && <div className="space-y-5 overflow-y-scroll no-scrollbar" style={{maxHeight: '70vh'}}>
                 {items.map(item => {
-                    return <ItemComponent item={item} />;
+                    return <ItemComponent item={item} key={item.id} />;
                 })}
+            </div>}
+
+            {!items && <div className="w-full py-16 px-5 flex justify-center items-center font-bold text-3xl">
+                Здесь пока ничего нет ;)
             </div>}
         </article>
     );
@@ -41,7 +45,9 @@ export const AdminSection: React.FC<AdminSectionProps> = ({
 
 export const Admin: React.FC = ({}) => {
     const {data: attractions, refetch: refetchAttractions} = useGetAttractionsQuery();
-    const {data: foods} = useGetFoodsQuery();
+    const {data: foods, refetch: refetchFoods} = useGetFoodsQuery();
+
+    console.log(foods)
 
     const [deleteAttraction] = useDeleteAttractionMutation();
     const handleDeleteAttraction = async (id: number) => {
@@ -53,9 +59,20 @@ export const Admin: React.FC = ({}) => {
         refetchAttractions();
     }
 
-    useEffect(() => {
-        refetchAttractions();
-    }, []);
+    // const [deleteAttraction] = useDeleteAttractionMutation();
+    const handleDeleteFood = async (id: number) => {
+        const confirmed = confirm('Вы уверены, что хотите удалить это блюдо?');
+        if (!confirmed) return;
+
+        // await deleteAttraction({id} as any);
+
+        refetchFoods();
+    }
+
+    // useEffect(() => {
+    //     refetchAttractions();
+    //     refetchFoods();
+    // }, []);
 
     return (
         <div className="container px-5">
@@ -65,6 +82,7 @@ export const Admin: React.FC = ({}) => {
 
             <h1 className="text-5xl font-bold w-full mt-5 mb-10">Админ панель</h1>
 
+            {/* Attractions section */}
             <AdminSection
                 title="Аттракционы"
                 createTo="/admin/attractions/create"
@@ -94,6 +112,45 @@ export const Admin: React.FC = ({}) => {
                                     >Удалить</Button>
 
                                     <Link to={`/admin/attractions/${item.id}/edit`} className="">
+                                        <Button filled={false}>Изменить</Button>
+                                    </Link>
+                                </div>
+
+                            </div>
+                        </div>
+                    )
+                }}
+            />
+
+            {/* Foods section */}
+            <AdminSection
+                title="Еда"
+                createTo="/admin/foods/create"
+                items={foods as any}
+                ItemComponent={({item}: {item: IFood}) => {
+                    return (
+                        <div
+                            className="w-full flex gap-8 md:flex-row flex-col justify-between border-2 border-app-accent rounded-xl p-5"
+                            key={item.id}
+                        >
+                            <img src={item.image} alt={item.name}
+                                 className="h-64 rounded-lg object-contain"/>
+
+                            <div className="flex flex-col flex-1">
+                                <h3 className="text-3xl font-bold mb-2">{item.name}</h3>
+                                <p className="text-gray-200 text-sm ">{item.description}</p>
+                                <div
+                                    className="text-lg mt-5">Цена: <b>{item.price}</b> руб
+                                </div>
+
+                                <div className="md:mt-auto mt-5 flex flex-wrap gap-3 justify-end">
+                                    <Button
+                                        colorClass="red-500"
+                                        className="mx-0"
+                                        onClick={() => handleDeleteFood(item.id)}
+                                    >Удалить</Button>
+
+                                    <Link to={`/admin/foods/${item.id}/edit`} className="">
                                         <Button filled={false}>Изменить</Button>
                                     </Link>
                                 </div>

@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {RootState} from "@/store";
 import {prepareAuthHeader} from "@/store/utils/prepareAuthHeader.ts";
+import {IResponse} from "@/types/IResponse.ts";
 
 export interface IAttraction {
     id: number;
@@ -10,12 +11,6 @@ export interface IAttraction {
     description: string;
     restrictions: string;
     image: string;
-}
-
-export interface IResponse {
-    status: number;
-    message?: string;
-    data: any;
 }
 
 export const attractionsApi = createApi({
@@ -35,6 +30,9 @@ export const attractionsApi = createApi({
                 url: `attractions/${payload.id}`,
             }),
         }),
+
+        /* ----- Admin routes ----- */
+
         createAttraction: builder.mutation<IResponse, FormData>({
             query: (payload) => ({
                 url: `admin/attractions`,

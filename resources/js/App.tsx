@@ -11,6 +11,8 @@ import {authApi, useGetUserQuery} from "@/store/auth/auth.api.ts";
 import {Admin} from "@pages/Admin/Admin.tsx";
 import {CreateAttraction} from "@pages/Admin/modules/Attractions/CreateAttraction.tsx";
 import {EditAttraction} from "@pages/Admin/modules/Attractions/EditAttraction.tsx";
+import {CreateFood} from "@pages/Admin/modules/Foods/CreateFood.tsx";
+import {EditFood} from "@pages/Admin/modules/Foods/EditFood.tsx";
 
 function App() {
     const {usePrefetch} = authApi;
@@ -30,8 +32,12 @@ function App() {
 
                     {/* Admin  */}
                     <Route path="/admin" element={<Admin/>}/>
+
                     <Route path="/admin/attractions/create" element={<CreateAttraction/>}/>
                     <Route path="/admin/attractions/:id/edit" element={<EditAttraction/>}/>
+
+                    <Route path="/admin/foods/create" element={<CreateFood/>}/>
+                    <Route path="/admin/foods/:id/edit" element={<EditFood/>}/>
                 </Routes>
             </Layout>
         </BrowserRouter>

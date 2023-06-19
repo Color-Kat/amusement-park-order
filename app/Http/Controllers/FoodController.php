@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Food\CURDFoodRequest;
 use App\Models\Food;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -10,66 +12,76 @@ class FoodController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        Food::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return Food::all();
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
      */
     public function show($id)
     {
-        //
+        return Food::query()
+            ->where('id', $id)
+            ->first();
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CURDFoodRequest $request
+     * @return JsonResponse
      */
-    public function edit($id)
+    public function store(CURDFoodRequest $request)
     {
-        //
+        $data = $request->all();
+
+        if (!$data['_image']) $data['image'] = '';
+
+        // Create food
+        $result = Food::create($data);
+
+        // Set image
+        if ($data['_image']) $result->updateImage($data['_image'], 'foods');
+
+        return response()->json([
+            'status' => 201,
+            'data' => $result
+        ], 201);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CURDFoodRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CURDFoodRequest $request, $id)
     {
-        //
+        $data = $request->all([
+            'name', 'description', 'price'
+        ]);
+
+        $attraction = Food::query()->where('id', $id)->first();
+
+        // Update food
+        $result = $attraction->update($data);
+
+        // Set image
+        $newImage = $request->file('_image');
+        if ($newImage) $attraction->updateImage($newImage, 'foods');
+
+        return response()->json([
+            'status' => 200,
+            'data' => $result
+        ], 200);
     }
 
     /**
@@ -80,6 +92,8 @@ class FoodController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Food::query()
+            ->where('id', $id)
+            ->delete();
     }
 }

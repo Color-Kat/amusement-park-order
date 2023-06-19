@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Attraction\CURDAttractionRequest;
+use App\Http\Requests\Attraction\CURDFoodRequest;
 use App\Models\Attraction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,16 +38,16 @@ class AttractionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CURDAttractionRequest $request
+     * @param CURDFoodRequest $request
      * @return JsonResponse
      */
-    public function store(CURDAttractionRequest $request)
+    public function store(CURDFoodRequest $request)
     {
         $data = $request->all();
 
         if (!$data['_image']) $data['image'] = '';
 
-        // Create base part
+        // Create attraction
         $result = Attraction::create($data);
 
         // Set image
@@ -62,11 +62,11 @@ class AttractionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CURDAttractionRequest $request
+     * @param CURDFoodRequest $request
      * @param int $id
      * @return JsonResponse
      */
-    public function update(CURDAttractionRequest $request, $id)
+    public function update(CURDFoodRequest $request, $id)
     {
         $data = $request->all([
             'name', 'description', 'restrictions', 'price'
@@ -74,7 +74,7 @@ class AttractionController extends Controller
 
         $attraction = Attraction::query()->where('id', $id)->first();
 
-        // Create base part
+        // Update attraction
         $result = $attraction->update($data);
 
         // Set image
