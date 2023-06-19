@@ -19,11 +19,18 @@ class RoleMiddleware
         $user = $request->user();
 
         if(!$user) {
-            return redirect()->route('login', 401);
+            return response()->json([
+                'status' => 401,
+                'message' => 'Войдите в аккаунт'
+            ]);
+//            return redirect()->route('login', 401);
         }
 
         if (!$user->hasRole(...explode('|', $role))) {
-            return redirect()->route('home', 403);
+            return response()->json([
+                'status' => 403,
+                'message' => 'У вас нет прав для совершения этой операции'
+            ]);
         }
 
         return $next($request);

@@ -11,7 +11,7 @@ export const Admin: React.FC = ({}) => {
     console.log(attractions);
 
     return (
-        <div className="container">
+        <div className="container px-5">
             <Helmet>
                 <title>Админ панель</title>
             </Helmet>

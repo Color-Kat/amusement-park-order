@@ -11,6 +11,12 @@ export interface IAttraction {
     image: string;
 }
 
+export interface IResponse {
+    status: number;
+    message?: string;
+    data: any;
+}
+
 export const attractionsApi = createApi({
     reducerPath: 'attractions/api',
     baseQuery: fetchBaseQuery({
@@ -18,21 +24,16 @@ export const attractionsApi = createApi({
         prepareHeaders: prepareAuthHeader,
     }),
     endpoints: (builder) => ({
-        // register: builder.mutation<{user: any, token: string}, {
-        //     name: string,
-        //     email: string,
-        //     password: string,
-        // }>({
-        //     query: (payload) => ({
-        //         url: `sdf`,
-        //         method: 'POST',
-        //         body: payload
-        //     }),
-        // }),
-
         getAttractions: builder.query<IAttraction[], void>({
             query: () => ({
                 url: `attractions`,
+            }),
+        }),
+        createAttraction: builder.mutation<IResponse, FormData>({
+            query: (payload) => ({
+                url: `admin/attractions`,
+                method: 'POST',
+                body: payload,
             }),
         }),
 
@@ -41,4 +42,5 @@ export const attractionsApi = createApi({
 
 export const {
     useGetAttractionsQuery,
+    useCreateAttractionMutation
 } = attractionsApi;

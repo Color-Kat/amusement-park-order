@@ -36,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/attractions', [AttractionController::class, 'index'])->name('attractions');
 
+Route::middleware('role:admin', 'auth:sanctum')->as('admin.')->prefix('admin')->group(function() {
+    Route::apiResource('/attractions', AttractionController::class)->names('attractions');
+});
+
 
 
 

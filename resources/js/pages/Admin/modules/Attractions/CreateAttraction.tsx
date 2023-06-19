@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import {IAttraction} from "@/store/attractions.api.ts";
+import {IAttraction, useCreateAttractionMutation} from "@/store/attractions.api.ts";
 import Input from "@UI/Form/Input.tsx";
 import {Button} from "@UI/Buttons/Button.tsx";
 import {PhotoInput} from "@components/Form/PhotoInput.tsx";
+import {toFormData} from "@/utils/toFormData.ts";
 
 
 
 export const CreateAttraction: React.FC = ({}) => {
+    const [createAttraction] = useCreateAttractionMutation();
+
+    const [error, setError] = useState('');
     const [attraction, setAttraction] = useState<Omit<IAttraction & {_image: any}, "id">>({
         name: '',
         description: '',
@@ -16,16 +20,25 @@ export const CreateAttraction: React.FC = ({}) => {
         _image: null
     });
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
+        console.log(attraction);
+        const result = await createAttraction(toFormData(attraction));
+        console.log(result);
+
+        if(!('data' in result)) return setError('Не удалось создать аттракцион');
+
+        if(result.data.status != 200) setError(result.data.message ?? 'Не удалось создать аттракцион');
     }
 
     return (
         <div className="container px-5">
             <h1 className="text-4xl font-bold mt-5 mb-10">Создать новый аттракцион</h1>
 
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" encType="multipart/form-data">
+                {error && <div className="text-red-300 p-2 rounded bg-red-500/50">{error}</div>}
+
                 <PhotoInput data={attraction} setData={setAttraction as any} />
 
                 <Input
@@ -56,6 +69,7 @@ export const CreateAttraction: React.FC = ({}) => {
                     data={attraction}
                     setData={setAttraction}
                     name="price"
+                    type="number"
                     label="Цена билета"
                     description="Цена билета по карте на 10 руб. ниже"
                     icon={false}

@@ -25,7 +25,17 @@ class AttractionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        if (!$data['_image']) $data['image'] = '';
+
+        // Create base part
+        $result = Attraction::create($data);
+
+        // Set image
+        if ($data['_image']) $result->updateImage($data['_image'], 'attractions');
+
+        return $result;
     }
 
     /**
