@@ -20,6 +20,21 @@ class AttractionController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
+     */
+    public function show($id)
+    {
+        return Attraction::query()
+            ->where('id', $id)
+            ->first();
+    }
+
+    /* ----- Admin routes ----- */
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param StoreAttractionRequest $request
@@ -43,16 +58,7 @@ class AttractionController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

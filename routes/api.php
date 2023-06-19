@@ -34,10 +34,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-Route::get('/attractions', [AttractionController::class, 'index'])->name('attractions');
+Route::get('/attractions', [AttractionController::class, 'index'])->name('attractions.index');
+Route::get('/attractions/{id}', [AttractionController::class, 'show'])->name('attractions.show');
 
 Route::middleware('role:admin', 'auth:sanctum')->as('admin.')->prefix('admin')->group(function() {
-    Route::apiResource('/attractions', AttractionController::class)->names('attractions');
+    Route::apiResource('/attractions', AttractionController::class)->except(['index', 'show'])->names('attractions');
 });
 
 

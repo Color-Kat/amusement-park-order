@@ -82,7 +82,7 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({data, setData, errors, de
                     <img
                         src={photoPreview}
                         alt="Фото товара"
-                        className="max-h-72 object-cover rounded"
+                        className="max-h-72 object-cover rounded-md"
                     />
                 </div>
             ) : (
@@ -91,7 +91,7 @@ export const PhotoInput: React.FC<PhotoInputProps> = ({data, setData, errors, de
                     <img
                         src={data.image ? data.image : noImage}
                         alt="Фото"
-                        className="w-full xsm:w-60 object-cover"
+                        className="max-h-72 object-cover rounded-md"
                     />
                 </div>
             )}
