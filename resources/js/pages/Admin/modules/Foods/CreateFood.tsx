@@ -16,7 +16,7 @@ export const CreateFood: React.FC = ({}) => {
         description: '',
         price: 100,
         image: '',
-        _image: null
+        _image: ''
     });
 
     const handleSubmit = async (e: any) => {

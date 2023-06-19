@@ -1,6 +1,6 @@
 import React, {ReactNode, useCallback, useEffect} from 'react';
 import {IAttraction, useDeleteAttractionMutation, useGetAttractionsQuery} from "@/store/attractions.api.ts";
-import {IFood, useGetFoodsQuery} from "@/store/foods.api.ts";
+import {IFood, useDeleteFoodMutation, useGetFoodsQuery} from "@/store/foods.api.ts";
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
 import {Button} from "@UI/Buttons/Button.tsx";
@@ -47,8 +47,6 @@ export const Admin: React.FC = ({}) => {
     const {data: attractions, refetch: refetchAttractions} = useGetAttractionsQuery();
     const {data: foods, refetch: refetchFoods} = useGetFoodsQuery();
 
-    console.log(foods)
-
     const [deleteAttraction] = useDeleteAttractionMutation();
     const handleDeleteAttraction = async (id: number) => {
         const confirmed = confirm('Вы уверены, что хотите удалить аттракцион?');
@@ -59,20 +57,20 @@ export const Admin: React.FC = ({}) => {
         refetchAttractions();
     }
 
-    // const [deleteAttraction] = useDeleteAttractionMutation();
+    const [deleteFood] = useDeleteFoodMutation();
     const handleDeleteFood = async (id: number) => {
         const confirmed = confirm('Вы уверены, что хотите удалить это блюдо?');
         if (!confirmed) return;
 
-        // await deleteAttraction({id} as any);
+        await deleteFood({id} as any);
 
         refetchFoods();
     }
 
-    // useEffect(() => {
-    //     refetchAttractions();
-    //     refetchFoods();
-    // }, []);
+    useEffect(() => {
+        refetchAttractions();
+        refetchFoods();
+    }, []);
 
     return (
         <div className="container px-5">
