@@ -5,7 +5,7 @@ namespace App\Http\Requests\Attraction;
 use App\Http\Requests\BaseApiFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAttractionRequest extends BaseApiFormRequest
+class CURDAttractionRequest extends BaseApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

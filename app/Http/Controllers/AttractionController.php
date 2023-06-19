@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Attraction\StoreAttractionRequest;
+use App\Http\Requests\Attraction\CURDAttractionRequest;
 use App\Models\Attraction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AttractionController extends Controller
 {
@@ -22,7 +23,7 @@ class AttractionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object
      */
     public function show($id)
@@ -37,10 +38,10 @@ class AttractionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreAttractionRequest $request
+     * @param CURDAttractionRequest $request
      * @return JsonResponse
      */
-    public function store(StoreAttractionRequest $request)
+    public function store(CURDAttractionRequest $request)
     {
         $data = $request->all();
 
@@ -58,24 +59,38 @@ class AttractionController extends Controller
         ], 201);
     }
 
-
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CURDAttractionRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CURDAttractionRequest $request, $id)
     {
-        //
+        $data = $request->all([
+            'name', 'description', 'restrictions', 'price'
+        ]);
+
+        $attraction = Attraction::query()->where('id', $id)->first();
+
+        // Create base part
+        $result = $attraction->update($data);
+
+        // Set image
+        $newImage = $request->file('_image');
+        if ($newImage) $attraction->updateImage($newImage, 'attractions');
+
+        return response()->json([
+            'status' => 200,
+            'data' => $result
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -27,26 +27,34 @@ export const EditAttraction: React.FC = ({}) => {
         restrictions: '',
         price: 100,
         image: '',
-        _image: null
+        _image: null,
     });
 
     useEffect(() => {
+        if(!attractionData) return;
+
         setAttraction(prev => ({
             ...prev,
-            ...attractionData
+            name: attractionData.name ?? '',
+            description: attractionData.description ?? '',
+            restrictions: attractionData.restrictions ?? '',
+            price: attractionData.price ?? 100,
+            image: attractionData.image ?? '',
         }));
     }, [attractionData]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        const result = await editAttraction(toFormData(attraction));
-        console.log(result);
+        const result = await editAttraction({
+            id: id as any,
+            data: toFormData(attraction)
+        });
 
         if('error' in result)
             return setError(Object.values((result.error as any).data)[0] as string);
 
-        if(result.data.status != 201) return setError(result.data.message ?? 'Не удалось обновить аттракцион');
+        if(result.data.status != 200) return setError(result.data.message ?? 'Не удалось обновить аттракцион');
 
         navigate('/admin');
     }

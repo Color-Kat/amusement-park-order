@@ -30,7 +30,7 @@ export const attractionsApi = createApi({
                 url: `attractions`,
             }),
         }),
-        getAttraction: builder.query<IAttraction, {id: number}>({
+        getAttraction: builder.query<IAttraction, {id: string}>({
             query: (payload) => ({
                 url: `attractions/${payload.id}`,
             }),
@@ -42,14 +42,17 @@ export const attractionsApi = createApi({
                 body: payload,
             }),
         }),
-        editAttraction: builder.mutation<IResponse, FormData>({
-            query: (payload) => ({
-                url: `admin/attractions`,
-                method: 'POST',
-                body: payload,
-            }),
+        editAttraction: builder.mutation<IResponse, {id: string, data: FormData}>({
+            query: (payload) => {
+                payload.data.append('_method', 'PATCH')
+                return {
+                    url: `admin/attractions/${payload.id}`,
+                    method: 'POST',
+                    body: payload.data,
+                }
+            },
         }),
-        deleteAttraction: builder.mutation<IResponse, {id: number}>({
+        deleteAttraction: builder.mutation<IResponse, {id: string}>({
             query: (payload) => ({
                 url: `admin/attractions/${payload.id}`,
                 method: 'DELETE',
